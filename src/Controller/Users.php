@@ -6,9 +6,12 @@ use App\Model\User as User;
 
 class Users
 {
+  public function __construct()
+  {
+    $this->User = new User();
+  }
   public function register()
   {
-    $User = new User();
     // if the method is post
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
       // sanitize post data
@@ -28,7 +31,7 @@ class Users
         $data['email_err'] = 'Email is required';
       } else if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
         $data['email_err'] = "Invalid email";
-      } else if ($User->findUserByEmail($data['email'])) {
+      } else if ($this->User->findUserByEmail($data['email'])) {
         $data['email_err'] = 'Email is already taken';
       }
 
@@ -37,7 +40,7 @@ class Users
         $data['username_err'] = 'Username is required';
       } else {
         // check if username exists
-        if ($User->findUserByUsername($data['username'])) {
+        if ($this->User->findUserByUsername($data['username'])) {
           $data['username_err'] = 'Username is already taken';
         }
       }
@@ -64,13 +67,53 @@ class Users
         $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
         // Register User
-        if ($User->register($data)) {
+        if ($this->User->register($data)) {
           return [
             'success' => true,
             'data' => $data
           ];
         } else {
           die('Something went wrong');
+        }
+      } else {
+        return [
+          'success' => false,
+          'data' => $data
+        ];
+      }
+    }
+  }
+
+  public function login()
+  {
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+      $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+      $data = [
+        'email_usr' => trim($_POST['email_usr']),
+        'password' => trim($_POST['password']),
+        'email_usr_err' => '',
+        'password_err' => ''
+      ];
+
+      if (empty($data['email_usr'])) {
+        $data['email_usr_err'] = 'Email or username is required';
+      }
+      if (empty($data['password'])) {
+        $data['password_err'] = 'Password is required';
+      }
+
+      if (empty($data['password_err']) && empty($data['email_usr_err'])) {
+        if ($this->User->loginEmail($data) || $this->User->loginUsername($data)) {
+          return [
+            'success' => true,
+            'data' => $data
+          ];
+        } else {
+          $data['email_usr_err'] = 'Invalid credentials';
+          return [
+            'success' => false,
+            'data' => $data
+          ];
         }
       } else {
         return [

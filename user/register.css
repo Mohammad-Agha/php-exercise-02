@@ -27,6 +27,7 @@ html, body {
 }
 
 .form-wrapper {
+  width: 700px;
   border: 1px solid #fff;
   padding: 0 30px 30px 30px;
 }
@@ -51,9 +52,21 @@ html, body {
   margin-top: 10px;
   font-size: 18px;
   font-weight: bold;
+  display: block;
+  width: 100%;
   cursor: pointer;
 }
 
 .error {
   color: red;
+}
+
+.register {
+  display: inline-block;
+  margin-top: 5px;
+  color: #fff;
+}
+
+.register a {
+  color: #fff;
 }

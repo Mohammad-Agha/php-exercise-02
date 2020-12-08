@@ -18,6 +18,7 @@ if (isset($_POST['register'])) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Register page for admins. Here you can signup for an account to have your own customized dashboard">
   <title>Register Page | Admin's Dashboard Register</title>
   <link rel="stylesheet" href="register.css">
 </head>
@@ -70,8 +71,9 @@ if (isset($_POST['register'])) {
                                         ?>" id="password" name="password" placeholder="Password">
         </div>
         <div class="form-group">
-          <input class="btn" type="submit" value="Register" name="register">
+          <button class="btn" name="register">Register</button>
         </div>
+        <span class="register">Already have an account? <a href="login.php">Login here</a></span>
       </form>
     </div>
   </div>

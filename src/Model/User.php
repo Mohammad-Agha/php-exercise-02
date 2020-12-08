@@ -29,6 +29,45 @@ class User
     }
   }
 
+  // login user by email
+  public function loginEmail($data)
+  {
+    $this->db->query('SELECT * FROM user WHERE email = :email');
+
+    $this->db->bind(':email', $data['email_usr']);
+
+    $row = $this->db->single();
+    if (!$row) return false;
+    $hashed_password = $row->password;
+
+    if (password_verify($data['password'], $hashed_password)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  // login user by username
+  public function loginUsername($data)
+  {
+    $this->db->query('SELECT * FROM user WHERE username = :username');
+
+    $this->db->bind(':username', $data['email_usr']);
+
+    $row = $this->db->single();
+    if (!$row) return false;
+    $hashed_password = $row->password;
+
+    if (password_verify($data['password'], $hashed_password)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+
+
   // Find user by email
   public function findUserByEmail($email)
   {
