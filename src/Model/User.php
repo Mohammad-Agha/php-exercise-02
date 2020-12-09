@@ -41,9 +41,14 @@ class User
     $hashed_password = $row->password;
 
     if (password_verify($data['password'], $hashed_password)) {
-      return true;
+      return [
+        'success' => true,
+        'id' => $row->id
+      ];
     } else {
-      return false;
+      return [
+        'success' => false
+      ];
     }
   }
 
@@ -59,9 +64,14 @@ class User
     $hashed_password = $row->password;
 
     if (password_verify($data['password'], $hashed_password)) {
-      return true;
+      return [
+        'success' => true,
+        'id' => $row->id
+      ];
     } else {
-      return false;
+      return [
+        'success' => false
+      ];
     }
   }
 

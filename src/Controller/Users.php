@@ -103,10 +103,17 @@ class Users
       }
 
       if (empty($data['password_err']) && empty($data['email_usr_err'])) {
-        if ($this->User->loginEmail($data) || $this->User->loginUsername($data)) {
+        $emailLogin = $this->User->loginEmail($data);
+        $usernameLogin = $this->User->loginUsername($data);
+        if ($emailLogin['success']) {
           return [
             'success' => true,
-            'data' => $data
+            'id' => $emailLogin['id']
+          ];
+        } else if ($usernameLogin['success']) {
+          return [
+            'success' => true,
+            'id' => $usernameLogin['id']
           ];
         } else {
           $data['email_usr_err'] = 'Invalid credentials';

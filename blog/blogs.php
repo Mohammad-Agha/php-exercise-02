@@ -1,8 +1,23 @@
 <?php
 session_start();
+require_once realpath("../vendor/autoload.php");
+
+use App\Controller\Blogs as Blog;
+
 
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== 'authorized') {
   header('Location: ../user/login.php');
+} else {
+  $limit = 10;
+  if ($_GET['page'] != '') {
+    $page = $_GET['page'];
+  } else {
+    $page = 1;
+  }
+  $blog = new Blog();
+  $result = $blog->getBlogsWithoutContent($page, $limit);
+  $total = $blog->getTotalBlogs();
+  $end = $page * $limit;
 }
 
 ?>
@@ -36,6 +51,64 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== 'authorized') {
       </a>
     </ul>
   </nav>
+
+  <div class="div-wrapper">
+    <div class="component-div">
+      <span class="component-name">Blogs</span>
+    </div>
+    <a class="link-btn" href='addBlog.php'>Add Blog</a>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Overview</th>
+          <th>Created</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <?php
+        if (sizeof($result) > 0) {
+          for ($i = 0; $i < sizeof($result); $i++) {
+            echo "<tr>";
+            foreach ($result[$i] as $key => $value) {
+              echo "<td>$value</td>";
+            }
+            $id = $result[$i]->id;
+            echo "<td>
+            <a class='update-btn' href='updateBlog.php?id=$id'>Update</a>
+            <a class='delete-btn' href='deleteBlog.php?id=$id'>Delete</a>
+            </td>";
+            echo "</tr>";
+          }
+        }
+        ?>
+      </tbody>
+    </table>
+    <div class="paginated-div">
+      <ul class="paginated-list">
+        <a href="?page=<?php
+                        if ($page == 1) {
+                          echo 1;
+                        } else {
+                          echo $page - 1;
+                        }
+                        ?>">
+          <li>prev</li>
+        </a>
+        <a href="?page=<?php
+                        if ($total->total - $end < 0) {
+                          echo $page;
+                        } else {
+                          echo $page + 1;
+                        }
+                        ?>">
+          <li>next</li>
+        </a>
+      </ul>
+    </div>
+  </div>
 </body>
 
 
