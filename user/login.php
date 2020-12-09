@@ -8,8 +8,9 @@ if (isset($_POST['login'])) {
   $user = new User();
   $result = $user->login();
   if ($result['success']) {
+    var_dump($result['data']);
     $_SESSION['logged_in'] = 'authorized';
-    header('Location: ../blog');
+    header('Location: ../blog/blogs.php');
   }
 }
 
