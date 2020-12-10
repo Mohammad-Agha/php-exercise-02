@@ -126,6 +126,11 @@ class Blogs
     return $this->Blog->getBlogWithContent($blog);
   }
 
+  public function getAllBlogs()
+  {
+    return $this->Blog->getAllBlogs();
+  }
+
   public function getBlogsWithoutContent($page, $limit)
   {
     $start = ($page - 1) * $limit;

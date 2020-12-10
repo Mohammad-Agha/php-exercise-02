@@ -103,13 +103,13 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== 'authorized') {
             }
             ?>
           </span></label>
-        <textarea value="<?php
-                          if (isset($_POST['content'])) {
-                            echo $result['data']['content'];
-                          } else {
-                            echo $blogs->content;
-                          }
-                          ?>" id="editor" name="content" cols="30" rows="10"></textarea>
+        <textarea id="editor" value='<?php
+                                      if (isset($_POST['content'])) {
+                                        echo $result['data']['content'];
+                                      } else {
+                                        echo $blogs->content;
+                                      }
+                                      ?>' name="content" cols="30" rows="10"></textarea>
       </div>
       <div class="form-group">
         <button style="border: none; font-size: 18px;" name="updateBlog" class="link-btn">Update Blog</button>
@@ -118,15 +118,18 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== 'authorized') {
   </div>
 
   <script type="text/javascript">
-    let editor = document.getElementById("editor")
+    let editor = document.getElementById("editor");
+    console.log(editor, "123");
     let value = editor.attributes.value.value
     CKEDITOR.replace('editor', {
       width: "100%",
       height: "200px"
 
     })
-    if (value != '')
+    if (value != '') {
+      console.log(value);
       CKEDITOR.instances['editor'].setData(value)
+    }
   </script>
 </body>
 

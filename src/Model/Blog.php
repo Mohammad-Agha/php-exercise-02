@@ -74,6 +74,13 @@ class Blog
     return $row;
   }
 
+  public function getAllBlogs()
+  {
+    $this->db->query('SELECT id, title, overview, content FROM blog');
+    $row = $this->db->resultSet();
+    return $row;
+  }
+
   public function countBlogs()
   {
     $this->db->query('SELECT COUNT(id) AS total FROM blog');
