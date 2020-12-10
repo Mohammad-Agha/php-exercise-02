@@ -28,6 +28,35 @@ class Blog
       return false;
     }
   }
+
+  public function updateBlog($data, $id)
+  {
+    $this->db->query('UPDATE blog SET title=:title, overview=:overview, content=:content WHERE id=:blog_id');
+
+    $this->db->bind(':title', $data['title']);
+    $this->db->bind(':overview', $data['overview']);
+    $this->db->bind(':content', $data['content']);
+    $this->db->bind(':blog_id', $id);
+
+    if ($this->db->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  public function deleteBlog($id)
+  {
+    $this->db->query('DELETE FROM blog WHERE id=:blog_id');
+    $this->db->bind(':blog_id', $id);
+
+    if ($this->db->execute()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   public function getBlogsWithoutContent($start, $limit)
   {
     $this->db->query('SELECT id, title, overview, created_at FROM blog LIMIT :start, :limit');
@@ -37,12 +66,11 @@ class Blog
     return $row;
   }
 
-  public function getBlogsWithContent($start, $limit)
+  public function getBlogWithContent($id)
   {
-    $this->db->query('SELECT id, title, overview, content created_at FROM blog LIMIT :start, :limit');
-    $this->db->bind(':start', $start);
-    $this->db->bind(':limit', $limit);
-    $row = $this->db->resultSet();
+    $this->db->query('SELECT id, title, overview, content FROM blog WHERE id = :id');
+    $this->db->bind(':id', $id);
+    $row = $this->db->single();
     return $row;
   }
 

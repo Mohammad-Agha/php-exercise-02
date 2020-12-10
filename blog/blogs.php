@@ -9,7 +9,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== 'authorized') {
   header('Location: ../user/login.php');
 } else {
   $limit = 10;
-  if ($_GET['page'] != '') {
+  if (isset($_GET['page']) && $_GET['page'] != '' && $_GET['page'] > 0) {
     $page = $_GET['page'];
   } else {
     $page = 1;
