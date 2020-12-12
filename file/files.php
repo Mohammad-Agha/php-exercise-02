@@ -2,9 +2,7 @@
 session_start();
 require_once realpath("../vendor/autoload.php");
 
-use App\Controller\Blogs as Blog;
-
-
+use App\Controller\Files as File;
 
 if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== 'authorized') {
   header('Location: ../user/login.php');
@@ -15,9 +13,9 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== 'authorized') {
   } else {
     $page = 1;
   }
-  $blog = new Blog();
-  $result = $blog->getBlogsWithoutContent($page, $limit, $_SESSION['user']);
-  $total = $blog->getTotalBlogs();
+  $file = new File();
+  $result = $file->getAllFiles($page, $limit, $_SESSION['user']);
+  $total = $file->getTotalFiles();
   $end = $page * $limit;
 }
 
@@ -29,43 +27,42 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== 'authorized') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Dashboard page for admins. Here admins can view their own blogs">
-  <title>Blog Page | Admin's Blogs</title>
-  <link rel="stylesheet" href="main.css">
+  <meta name="description" content="Dashboard page for admins. Here admins can view their own files">
+  <title>Blog Page | Admin's Files</title>
+  <link rel="stylesheet" href="../blog/main.css">
 </head>
 
 <body>
   <nav class="nav">
-    <h1 class="nav-logo">Hello Admin <?php echo $_SESSION['user']; ?></h1>
+    <h1 class="nav-logo">Hello Admin</h1>
     <hr class="nav__line" />
     <ul class="nav-links">
-      <a class="nav-link" href='blogs.php'>
-        <li class="active">Blogs</li>
+      <a class="nav-link" href='../blog/blogs.php'>
+        <li>Blogs</li>
       </a>
 
-      <a class="nav-link" href='../file/files.php'>
-        <li>Files</li>
+      <a class="nav-link" href='files.php'>
+        <li class="active">Files</li>
       </a>
 
-      <a class="nav-link" href='logout.php'>
+      <a class="nav-link" href='../blog/logout.php'>
         <li>Logout</li>
       </a>
     </ul>
   </nav>
-
   <div class="div-wrapper">
     <div class="component-div">
-      <span class="component-name">Blogs</span>
+      <span class="component-name">Files</span>
     </div>
-    <a class="link-btn" href='addBlog.php'>Add Blog</a>
-    <a style="margin-left: 20px;" class="link-btn" href='excel.php'>Export data as excel sheet</a>
+    <a class="link-btn" href='addFile.php'>Add File</a>
     <table class="table">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Title</th>
-          <th>Overview</th>
-          <th>Created</th>
+          <th>name</th>
+          <th>size</th>
+          <th>format</th>
+          <th>path</th>
           <th></th>
         </tr>
       </thead>
@@ -78,9 +75,13 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== 'authorized') {
               echo "<td>$value</td>";
             }
             $id = $result[$i]->id;
+            $fullPath = $result[$i]->path . $result[$i]->name . "." . $result[$i]->format;
+            $name = $result[$i]->name;
+            $format = $result[$i]->format;
             echo "<td>
-            <a class='update-btn' href='updateBlog.php?id=$id'>Update</a>
-            <a class='delete-btn' href='deleteBlog.php?id=$id'>Delete</a>
+            <a class='update-btn' href='updateFile.php?id=$id&name=$name&format=$format'>Update</a>
+            <a class='delete-btn' href='deleteFile.php?id=$id&path=$fullPath'>Delete</a>
+            <a class='update-btn' href='downloadFile.php?path=$fullPath'>Download</a>
             </td>";
             echo "</tr>";
           }

@@ -2,29 +2,29 @@
 
 namespace App\Database;
 
+
 use PDO, PDOException;
+use Dotenv\Dotenv;
+
 
 class Database
 {
-  private $host = "localhost";
-  private $user = "root";
-  private $pass = "keke";
-  private $dbname = "admin_dashboard";
-
   private $dbh;
   private $stmt;
   private $error;
 
   public function __construct()
   {
-    $dsn = 'mysql:host=' . $this->host . ';dbname=' . $this->dbname;
+    $dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
+    $dotenv->load();
+    $dsn = 'mysql:host=' . $_ENV['host'] . ';dbname=' . $_ENV['dbname'];
     $options = array(
       PDO::ATTR_PERSISTENT => true,
       PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
     );
 
     try {
-      $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
+      $this->dbh = new PDO($dsn, $_ENV['user'], $_ENV['pass'], $options);
     } catch (PDOException $e) {
       $this->error = $e->getMessage();
       echo $this->error;

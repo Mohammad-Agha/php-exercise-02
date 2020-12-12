@@ -42,7 +42,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== 'authorized') {
         <li class="active">Blogs</li>
       </a>
 
-      <a class="nav-link" href='files.php'>
+      <a class="nav-link" href='../file/files.php'>
         <li>Files</li>
       </a>
 

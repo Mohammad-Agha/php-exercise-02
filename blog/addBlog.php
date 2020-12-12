@@ -21,7 +21,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== 'authorized') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Dashboard page for admins. Here admins can view their own blogs">
+  <meta name="description" content="Dashboard page for admins. Here admins can add their own blogs">
   <script src="//cdn.ckeditor.com/4.11.1/standard/ckeditor.js"></script>
   <title>Blog Page | Admin's Blogs</title>
   <link rel="stylesheet" href="main.css">
@@ -36,7 +36,7 @@ if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== 'authorized') {
         <li class="active">Blogs</li>
       </a>
 
-      <a class="nav-link" href='files.php'>
+      <a class="nav-link" href='../file/files.php'>
         <li>Files</li>
       </a>
 

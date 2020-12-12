@@ -131,11 +131,11 @@ class Blogs
     return $this->Blog->getAllBlogs();
   }
 
-  public function getBlogsWithoutContent($page, $limit)
+  public function getBlogsWithoutContent($page, $limit, $id)
   {
     $start = ($page - 1) * $limit;
 
-    return $this->Blog->getBlogsWithoutContent($start, $limit);
+    return $this->Blog->getBlogsWithoutContent($start, $limit, $id);
   }
 
   public function getTotalBlogs()

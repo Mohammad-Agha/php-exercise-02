@@ -57,9 +57,10 @@ class Blog
     }
   }
 
-  public function getBlogsWithoutContent($start, $limit)
+  public function getBlogsWithoutContent($start, $limit, $id)
   {
-    $this->db->query('SELECT id, title, overview, created_at FROM blog LIMIT :start, :limit');
+    $this->db->query('SELECT id, title, overview, created_at FROM blog WHERE user_id = :id LIMIT :start, :limit');
+    $this->db->bind(':id', $id);
     $this->db->bind(':start', $start);
     $this->db->bind(':limit', $limit);
     $row = $this->db->resultSet();
